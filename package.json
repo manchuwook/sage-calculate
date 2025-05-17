@@ -9,7 +9,9 @@
     "test": "vitest",
     "test:coverage": "vitest --coverage",
     "lint": "eslint src/**/*.ts",
-    "format": "prettier --write \"src/**/*.ts\""
+    "format": "prettier --write \"src/**/*.ts\"",
+    "generate-npm-lockfile": "npm i --package-lock-only --no-save",
+    "update-lockfiles": "pnpm install && npm i --package-lock-only --no-save"
   },
   "files": [
     "dist/**/*"
