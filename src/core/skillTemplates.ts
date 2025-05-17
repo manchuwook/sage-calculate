@@ -18,6 +18,18 @@ const createFocOpt = (focus: string): FocusOption => ({
 });
 
 /**
+ * Valid skill types
+ */
+export type SkillType = 'Field' | 'Magic' | 'Melee' | 'Ranged';
+
+/**
+ * Valid attribute names
+ */
+export type AttributeName = 
+  'Strength' | 'Endurance' | 'Coordination' | 'Quickness' | 
+  'Willpower' | 'Intellect' | 'Charisma' | 'Sensitivity';
+
+/**
  * Base skill template data with focus options
  */
 export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attributeThreshold' | 'baseAttributeValue'>> = [
@@ -242,3 +254,30 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     ]
   }
 ] as const;
+
+/**
+ * Gets a specific skill template by name
+ * 
+ * @param name - The name of the skill template to find
+ * @returns The skill template or undefined if not found
+ */
+export const getSkillTemplate = (name: string) => 
+  skillTemplates.find(template => template.name === name);
+
+/**
+ * Gets all skill templates of a specific type
+ * 
+ * @param type - The skill type to filter by
+ * @returns An array of skill templates matching the type
+ */
+export const getSkillTemplatesByType = (type: SkillType) => 
+  skillTemplates.filter(template => template.type === type);
+
+/**
+ * Gets all skill templates associated with a specific attribute
+ * 
+ * @param attribute - The attribute to filter by
+ * @returns An array of skill templates associated with the attribute
+ */
+export const getSkillTemplatesByAttribute = (attribute: AttributeName) => 
+  skillTemplates.filter(template => template.attribute === attribute);

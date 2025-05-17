@@ -244,3 +244,73 @@ export const getFociRolls = (
     roll: `${focus.d10}d10 (${focus.threshold}+)`
   }));
 };
+
+/**
+ * Builds a complete set of skills using default attribute values
+ * This is useful for UIs that need to display all skills without specific character attributes
+ * 
+ * @param defaultD10 - Optional default d10 value for all attributes (defaults to 0)
+ * @param defaultThreshold - Optional default threshold value for all attributes (defaults to 0)
+ * @returns A complete array of skills with uniform attribute values
+ */
+export const buildCompleteSkillList = (
+  defaultD10: number = 0,
+  defaultThreshold: number = 0
+): Skill[] => {
+  // Create an array of attribute values, all set to the same defaultD10
+  const attributeLevels = Array(8).fill(defaultD10);
+  const attributeThresholds = Array(8).fill(defaultThreshold);
+  
+  return calculateSkills(attributeLevels, attributeThresholds);
+};
+
+/**
+ * Gets a list of all available skill names from the templates
+ * This is useful for UI dropdowns and similar components
+ * 
+ * @returns An array of all skill names
+ */
+export const getAllSkillNames = (): string[] => 
+  skillTemplates.map(template => template.name);
+
+/**
+ * Gets a list of all available focus names from the templates
+ * This is useful for UI dropdowns and similar components
+ * 
+ * @returns An array of all focus names
+ */
+export const getAllFocusNames = (): string[] => 
+  skillTemplates.flatMap(template => 
+    template.focusOptions.map(focus => focus.focus)
+  );
+
+/**
+ * Gets a mapping of skills to their available focus options
+ * This is useful for UI components that need to show related focus options
+ * 
+ * @returns An object mapping skill names to arrays of focus names
+ */
+export const getSkillToFocusMapping = (): Record<string, string[]> => 
+  skillTemplates.reduce((mapping, template) => {
+    mapping[template.name] = template.focusOptions.map(focus => focus.focus);
+    return mapping;
+  }, {} as Record<string, string[]>);
+
+/**
+ * Gets a map of skills by type (Field, Magic, Melee, Ranged)
+ * This is useful for UI organization
+ * 
+ * @returns An object mapping skill types to arrays of skill names
+ */
+export const getSkillsByType = (): Record<string, string[]> => {
+  const result: Record<string, string[]> = {};
+  
+  skillTemplates.forEach(template => {
+    if (!result[template.type]) {
+      result[template.type] = [];
+    }
+    result[template.type].push(template.name);
+  });
+  
+  return result;
+};
