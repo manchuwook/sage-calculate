@@ -1,0 +1,41 @@
+{
+  "name": "sage-calculate",
+  "version": "1.0.0",
+  "description": "A functional pure calculation library for saga system",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "keywords": [
+    "saga",
+    "calculator",
+    "functional",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.0"
+  },
+  "dependencies": {
+    "effect": "^3.15.2",
+    "lodash-es": "^4.17.21",
+    "zod": "^3.24.4"
+  }
+}
