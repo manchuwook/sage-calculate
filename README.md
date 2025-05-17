@@ -17,6 +17,7 @@ This library extracts the calculation logic from saga-calculations into a separa
 - **Composability**: Functions can be combined using pipes and flows to create complex transformations
 - **Type Safety**: Comprehensive TypeScript type definitions for better developer experience
 - **Separation of Concerns**: Clear distinction between data and operations
+- **Typeclasses**: Leverages Effect's typeclass system for composable operations on domain types
 
 ## Installation
 
@@ -90,6 +91,45 @@ const character = pipe(
     { focusName: 'Hide', level: 2 }
   ])
 );
+```
+
+## Typeclass Support
+
+The library utilizes Effect's typeclass system for composable operations:
+
+```typescript
+import { characterModificationMonoid } from 'sage-calculate';
+
+// Create empty modification
+const emptyMod = characterModificationMonoid.empty;
+
+// Combine multiple modifications using the monoid
+const combinedMods = characterModificationMonoid.combine(
+  emptyMod,
+  {
+    skillTrainings: [{ skillName: 'Stealth', level: 'Skilled' }],
+    focusLevels: []
+  }
+);
+
+// Add more modifications
+const finalMods = characterModificationMonoid.combine(
+  combinedMods,
+  {
+    skillTrainings: [],
+    focusLevels: [{ focusName: 'Hide', level: 2 }]
+  }
+);
+
+// The character builder uses this pattern internally
+const character = characterBuilder(attributes)
+  .withSkillTrainings([
+    { skillName: 'Stealth', level: 'Skilled' }
+  ])
+  .withFocusLevels([
+    { focusName: 'Hide', level: 2 }
+  ])
+  .build();
 ```
 
 ## Working with Generators

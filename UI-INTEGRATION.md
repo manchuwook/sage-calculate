@@ -9,6 +9,7 @@ This document provides guidance for integrating the Sage Calculate library with 
 - [React Integration Examples](#react-integration-examples)
 - [TanStack Query Integration](#tanstack-query-integration) 
 - [Form Validation](#form-validation)
+- [Typeclass Integration](#typeclass-integration)
 - [Best Practices](#best-practices)
 - [Troubleshooting](#troubleshooting)
 
@@ -459,6 +460,126 @@ function CharacterForm() {
 }
 ```
 
+## Typeclass Integration
+
+The library leverages Effect's typeclass system to provide composable operations on domain types. This is particularly useful when building UIs that need to handle complex data transformations.
+
+### Character Modification Monoid
+
+The library provides a monoid for character modifications that allows you to compose various changes to a character in a type-safe way.
+
+```typescript
+import { 
+  characterModificationMonoid,
+  CharacterModification 
+} from 'sage-calculate';
+
+// Create an empty modification
+const emptyMod = characterModificationMonoid.empty;
+
+// Add some skill trainings
+const withSkills: CharacterModification = {
+  skillTrainings: [
+    { skillName: 'Agility', level: 'Skilled' },
+    { skillName: 'Athletics', level: 'Adept' }
+  ],
+  focusLevels: []
+};
+
+// Add some focus levels
+const withFocuses: CharacterModification = {
+  skillTrainings: [],
+  focusLevels: [
+    { focusName: 'Acrobatics', level: 2 },
+    { focusName: 'Prowess', level: 1 }
+  ]
+};
+
+// Combine all modifications using the monoid
+const allModifications = characterModificationMonoid.combine(
+  characterModificationMonoid.combine(emptyMod, withSkills),
+  withFocuses
+);
+
+// Now you can apply these modifications to a character
+// This is what the characterBuilder does internally
+```
+
+### Using Typeclasses in React Components
+
+```tsx
+import React, { useState } from 'react';
+import { 
+  characterModificationMonoid,
+  CharacterModification,
+  createCharacter,
+  applySkillTrainings,
+  applyFocusLevels
+} from 'sage-calculate';
+import { pipe } from 'effect/Function';
+
+function CharacterModifier({ character, onCharacterChange }) {
+  const [modifications, setModifications] = useState<CharacterModification>(
+    characterModificationMonoid.empty
+  );
+  
+  const addSkillTraining = (skillName, level) => {
+    const newMod = {
+      skillTrainings: [{ skillName, level }],
+      focusLevels: []
+    };
+    
+    // Combine the new modification with existing ones
+    const updatedMods = characterModificationMonoid.combine(
+      modifications,
+      newMod
+    );
+    
+    setModifications(updatedMods);
+    
+    // Apply all modifications to the character
+    const updatedCharacter = pipe(
+      character,
+      char => applySkillTrainings(char, updatedMods.skillTrainings),
+      char => applyFocusLevels(char, updatedMods.focusLevels)
+    );
+    
+    onCharacterChange(updatedCharacter);
+  };
+  
+  const addFocusLevel = (focusName, level) => {
+    const newMod = {
+      skillTrainings: [],
+      focusLevels: [{ focusName, level }]
+    };
+    
+    const updatedMods = characterModificationMonoid.combine(
+      modifications,
+      newMod
+    );
+    
+    setModifications(updatedMods);
+    
+    const updatedCharacter = pipe(
+      character,
+      char => applySkillTrainings(char, updatedMods.skillTrainings),
+      char => applyFocusLevels(char, updatedMods.focusLevels)
+    );
+    
+    onCharacterChange(updatedCharacter);
+  };
+  
+  // Component rendering...
+}
+```
+
+### Benefits of Typeclasses
+
+1. **Composability**: Easily combine multiple modifications without side effects
+2. **Type Safety**: Full TypeScript support ensures correct operations
+3. **Predictability**: All operations follow mathematical laws ensuring consistent behavior
+4. **Reusability**: The same patterns can be applied across different parts of your application
+
 ## Best Practices
 
 1. **Validate Input Data**: Always validate tier and modifier combinations before creating attributes to prevent undefined results.
@@ -475,9 +596,11 @@ function CharacterForm() {
 
 4. **Separate UI State from Domain Logic**: Keep your React state separate from the character calculation logic to maintain a clear separation of concerns.
 
-5. **Handle Edge Cases**: Gracefully handle undefined results that might occur when attribute combinations are invalid.
+5. **Leverage Typeclasses**: Use the provided monoids and semigroups for composing operations, especially when building complex modifications to character data.
 
-6. **Type Safety**: Leverage TypeScript types to catch errors at compile time rather than runtime.
+6. **Handle Edge Cases**: Gracefully handle undefined results that might occur when attribute combinations are invalid.
+
+7. **Type Safety**: Leverage TypeScript types to catch errors at compile time rather than runtime.
 
 ## Troubleshooting
 
