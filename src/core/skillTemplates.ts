@@ -1,10 +1,25 @@
-import { Skill, TrainingLevel } from '../types';
+import { FocusOption, Skill, TrainingLevel } from '../types';
+
+/**
+ * Default values for focus options
+ */
+const DEFAULT_FOCUS_OPTION: Omit<FocusOption, 'focus'> = {
+  d10: 0,
+  threshold: 0,
+  focusLevel: 0
+};
+
+/**
+ * Creates a focus option with default values
+ */
+const createFocOpt = (focus: string): FocusOption => ({
+  focus,
+  ...DEFAULT_FOCUS_OPTION
+});
 
 /**
  * Base skill template data with focus options
  */
-
-
 export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attributeThreshold' | 'baseAttributeValue'>> = [
   {
     name: 'Agility',
@@ -12,8 +27,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Field',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Acrobatics', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Escape', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Acrobatics'),
+      createFocOpt('Escape')
     ]
   },
   {
@@ -22,8 +37,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Field',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Grapple', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Prowess', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Grapple'),
+      createFocOpt('Prowess')
     ]
   },
   {
@@ -32,8 +47,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Magic',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Formulae', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Ritual', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Formulae'),
+      createFocOpt('Ritual')
     ]
   },
   {
@@ -42,8 +57,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Magic',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Inherited', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Morphic', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Inherited'),
+      createFocOpt('Morphic')
     ]
   },
   {
@@ -52,8 +67,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Magic',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Ego', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Spirit', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Ego'),
+      createFocOpt('Spirit')
     ]
   },
   {
@@ -62,8 +77,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Melee',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Slice', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Stab', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Slice'),
+      createFocOpt('Stab')
     ]
   },
   {
@@ -72,8 +87,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Field',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Inspire', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Intimidate', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Inspire'),
+      createFocOpt('Intimidate')
     ]
   },
   {
@@ -82,8 +97,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Field',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Discern', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Plan', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Discern'),
+      createFocOpt('Plan')
     ]
   },
   {
@@ -92,8 +107,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Field',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Finesse', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Pilfer', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Finesse'),
+      createFocOpt('Pilfer')
     ]
   },
   {
@@ -102,8 +117,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Melee',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Arc', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Lash', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Arc'),
+      createFocOpt('Lash')
     ]
   },
   {
@@ -112,8 +127,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Magic',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Banish', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Manipulate', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Banish'),
+      createFocOpt('Manipulate')
     ]
   },
   {
@@ -122,8 +137,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Ranged',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Direct', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Indirect', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Direct'),
+      createFocOpt('Indirect')
     ]
   },
   {
@@ -132,8 +147,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Melee',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Impale', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Strike', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Impale'),
+      createFocOpt('Strike')
     ]
   },
   {
@@ -142,8 +157,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Ranged',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Crossbow', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Rifle', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Crossbow'),
+      createFocOpt('Rifle')
     ]
   },
   {
@@ -152,8 +167,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Ranged',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Archery', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Throw', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Archery'),
+      createFocOpt('Throw')
     ]
   },
   {
@@ -162,8 +177,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Field',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Chase', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Skirmish', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Chase'),
+      createFocOpt('Skirmish')
     ]
   },
   {
@@ -172,8 +187,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Field',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Search', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Survey', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Search'),
+      createFocOpt('Survey')
     ]
   },
   {
@@ -182,8 +197,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Field',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Con', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Handle', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Con'),
+      createFocOpt('Handle')
     ]
   },
   {
@@ -192,8 +207,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Ranged',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Handgun', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Mechanical', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Handgun'),
+      createFocOpt('Mechanical')
     ]
   },
   {
@@ -202,8 +217,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Field',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Hide', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Infiltration', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Hide'),
+      createFocOpt('Infiltration')
     ]
   },
   {
@@ -212,8 +227,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Melee',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Cut', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Thrust', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Cut'),
+      createFocOpt('Thrust')
     ]
   },
   {
@@ -222,8 +237,8 @@ export const skillTemplates: ReadonlyArray<Omit<Skill, 'attributeValue' | 'attri
     type: 'Melee',
     skillTraining: TrainingLevel.Untrained,
     focusOptions: [
-      { focus: 'Kick', d10: 0, threshold: 0, focusLevel: 0 },
-      { focus: 'Punch', d10: 0, threshold: 0, focusLevel: 0 }
+      createFocOpt('Kick'),
+      createFocOpt('Punch')
     ]
   }
 ] as const;
