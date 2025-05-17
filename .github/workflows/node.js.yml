@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [18.x, 20.x, 23.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -43,22 +43,3 @@ jobs:
         run: pnpm test
       - name: Build
         run: pnpm run build
-
-  build-npm:
-    runs-on: ubuntu-latest
-    name: Build with npm
-
-    # Only run npm build on Node.js 18 to verify package-lock.json works
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          cache: "npm"
-      - name: Install dependencies
-        run: npm ci
-      - name: Run tests
-        run: npm test
-      - name: Build
-        run: npm run build
