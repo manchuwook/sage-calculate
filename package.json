@@ -36,6 +36,7 @@
     "vitest": "^1.0.0"
   },
   "dependencies": {
+    "@effect/typeclass": "0.34.2",
     "effect": "^3.15.2",
     "lodash-es": "^4.17.21",
     "zod": "^3.24.4"

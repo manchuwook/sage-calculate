@@ -3,7 +3,6 @@ import {
   Character, 
   CharacterAttributes, 
   Attribute, 
-  Skill, 
   TrainingLevel 
 } from '../types';
 import { combineTierAndModifier, extractDefenseValues, extractPoolValues, extractStatistics, extractD10Values, extractThresholds } from './attributes';
@@ -11,6 +10,9 @@ import { calculateDefenses } from './defenses';
 import { calculatePools } from './pools';
 import { calculateStatistics } from './statistics';
 import { calculateSkills, updateFocusLevelInList, updateSkillTrainingInList } from './skills';
+import {
+  characterModificationMonoid as modificationMonoid
+} from './character-monoids';
 
 /**
  * Creates a character attributes object from individual attributes
@@ -225,7 +227,7 @@ type CharacterBuilder = {
 };
 
 /**
- * Creates a fluent builder for characters
+ * Creates a fluent builder for characters using the monoid pattern
  * 
  * @param attributes - The character attributes
  * @returns A CharacterBuilder instance
@@ -233,21 +235,32 @@ type CharacterBuilder = {
 export const characterBuilder = (
   attributes: CharacterAttributes
 ): CharacterBuilder => {
-  let character = createCharacter(attributes);
+  let baseCharacter = createCharacter(attributes);
+  let modifications = modificationMonoid.empty;
   
   return {
     withSkillTrainings(skillTrainings) {
-      character = applySkillTrainings(character, skillTrainings);
+      modifications = modificationMonoid.combine(modifications, {
+        skillTrainings,
+        focusLevels: []
+      });
       return this;
     },
     
     withFocusLevels(focusLevels) {
-      character = applyFocusLevels(character, focusLevels);
+      modifications = modificationMonoid.combine(modifications, {
+        skillTrainings: [],
+        focusLevels
+      });
       return this;
     },
     
     build() {
-      return character;
+      return pipe(
+        baseCharacter,
+        character => applySkillTrainings(character, modifications.skillTrainings),
+        character => applyFocusLevels(character, modifications.focusLevels)
+      );
     }
   };
 };
